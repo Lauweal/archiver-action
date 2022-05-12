@@ -44,7 +44,7 @@ const run_1 = __importDefault(__nccwpck_require__(7884));
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const filepath = yield (0, run_1.default)(core.getInput('type'), core.getInput('name'), path_1.default.join(process.cwd(), core.getInput('input')), path_1.default.join(process.cwd(), core.getInput('output')));
-        console.log('OUTPATH ----> ${filepath}');
+        console.log(`OUTPATH ----> ${filepath}`);
         if (filepath)
             return core.setOutput('path', filepath);
         return core.setFailed(`${core.getInput('type')} error`);
@@ -88,6 +88,10 @@ const archiver_1 = __importDefault(__nccwpck_require__(3084));
 const fs_1 = __importDefault(__nccwpck_require__(5747));
 const path_1 = __importDefault(__nccwpck_require__(5622));
 function run(type, name, input, output) {
+    // 不存在创建文件夹
+    if (!fs_1.default.existsSync(output)) {
+        fs_1.default.mkdirSync(output, { recursive: true });
+    }
     return new Promise(res => {
         const task = (0, archiver_1.default)(type, { zlib: { level: 9 } });
         const filepath = path_1.default.join(output, `${name}.${type}`);
