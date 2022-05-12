@@ -10,7 +10,7 @@ export default function run(
   output: string
 ): Promise<string> {
   return new Promise<string>(res => {
-    const task = archiver(type, { zlib: { level: 9 } })
+    const task = archiver(type, {zlib: {level: 9}})
     const filepath = path.join(output, `${name}.${type}`)
     const stream = fs.createWriteStream(filepath)
     task.pipe(stream)

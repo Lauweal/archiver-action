@@ -39,10 +39,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
+const path_1 = __importDefault(__nccwpck_require__(5622));
 const run_1 = __importDefault(__nccwpck_require__(7884));
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const filepath = yield (0, run_1.default)(core.getInput('type'), core.getInput('name'), core.getInput('input'), core.getInput('output'));
+        const filepath = yield (0, run_1.default)(core.getInput('type'), core.getInput('name'), path_1.default.join(process.cwd(), core.getInput('input')), path_1.default.join(process.cwd(), core.getInput('output')));
+        console.log('OUTPATH ----> ${filepath}');
         if (filepath)
             return core.setOutput('path', filepath);
         return core.setFailed(`${core.getInput('type')} error`);
@@ -63,14 +65,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const archiver_1 = __importDefault(__nccwpck_require__(3084));
+const core_1 = __importDefault(__nccwpck_require__(2186));
 const fs_1 = __importDefault(__nccwpck_require__(5747));
 const path_1 = __importDefault(__nccwpck_require__(5622));
 function run(type, name, input, output) {
     return new Promise(res => {
         const task = (0, archiver_1.default)(type, { zlib: { level: 9 } });
-        const stream = fs_1.default.createWriteStream(path_1.default.join(output, `${name}.${type}`));
+        const filepath = path_1.default.join(output, `${name}.${type}`);
+        const stream = fs_1.default.createWriteStream(filepath);
         task.pipe(stream);
         task.on('close', () => {
+            core_1.default.info(`FILE ---> ${filepath}`);
             res(path_1.default.join(output, `${name}.${type}`));
         });
         task.on('error', () => {
