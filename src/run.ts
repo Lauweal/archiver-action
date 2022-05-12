@@ -1,4 +1,5 @@
 import archiver from 'archiver'
+import core from '@actions/core'
 import fs from 'fs'
 import path from 'path'
 
@@ -9,10 +10,12 @@ export default function run(
   output: string
 ): Promise<string> {
   return new Promise<string>(res => {
-    const task = archiver(type, {zlib: {level: 9}})
-    const stream = fs.createWriteStream(path.join(output, `${name}.${type}`))
+    const task = archiver(type, { zlib: { level: 9 } })
+    const filepath = path.join(output, `${name}.${type}`)
+    const stream = fs.createWriteStream(filepath)
     task.pipe(stream)
     task.on('close', () => {
+      core.info(`FILE ---> ${filepath}`)
       res(path.join(output, `${name}.${type}`))
     })
 
