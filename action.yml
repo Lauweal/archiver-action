@@ -1,11 +1,25 @@
-name: 'Your name here'
+name: 'archiver-action'
 description: 'Provide a description here'
-author: 'Your name or organization here'
+author: 'lemonpaimc@126.com'
 inputs:
-  milliseconds: # change this
+  type:
+    description: ''
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    default: 'zip'
+  name:
+    description: ''
+    required: false
+    default: 'package'
+  input:
+    description: ''
+    required: true
+  output:
+    description: ''
+    required: false
+    default: '.'
 runs:
   using: 'node16'
   main: 'dist/index.js'
+outputs:
+  path:
+    description: output path

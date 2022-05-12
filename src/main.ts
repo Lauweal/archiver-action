@@ -1,19 +1,16 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import archiver from 'archiver'
+import run from './run'
 
-async function run(): Promise<void> {
-  try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
-
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
-  } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message)
-  }
+async function main(): Promise<void> {
+  const filepath = await run(
+    core.getInput('type') as archiver.Format,
+    core.getInput('name'),
+    core.getInput('input'),
+    core.getInput('output')
+  )
+  if (filepath) return core.setOutput('path', filepath)
+  return core.setFailed(`${core.getInput('type')} error`)
 }
 
-run()
+main()
