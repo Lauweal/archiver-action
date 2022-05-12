@@ -11,7 +11,7 @@ export default function run(
 ): Promise<string> {
   // 不存在创建文件夹
   if (!fs.existsSync(output)) {
-    fs.mkdirSync(output)
+    fs.mkdirSync(output, { recursive: true })
   }
   return new Promise<string>(res => {
     const task = archiver(type, { zlib: { level: 9 } })
