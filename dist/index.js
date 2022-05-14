@@ -46,7 +46,7 @@ function main() {
         const filepath = yield (0, run_1.default)(core.getInput('type'), core.getInput('name'), path_1.default.join(process.cwd(), core.getInput('input')), path_1.default.join(process.cwd(), core.getInput('output')));
         console.log(`OUTPATH ----> ${filepath}`);
         if (filepath)
-            return core.setOutput('path', filepath);
+            return core.setOutput('path', path_1.default.join(core.getInput('output'), filepath));
         return core.setFailed(`${core.getInput('type')} error`);
     });
 }
@@ -99,7 +99,7 @@ function run(type, name, input, output) {
         task.pipe(stream);
         task.on('close', () => {
             core.info(`FILE ---> ${filepath}`);
-            res(path_1.default.join(output, `${name}.${type}`));
+            res(`${name}.${type}`);
         });
         task.on('error', () => {
             task.destroy();

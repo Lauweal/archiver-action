@@ -11,7 +11,8 @@ async function main(): Promise<void> {
     path.join(process.cwd(), core.getInput('output'))
   )
   console.log(`OUTPATH ----> ${filepath}`)
-  if (filepath) return core.setOutput('path', filepath)
+  if (filepath)
+    return core.setOutput('path', path.join(core.getInput('output'), filepath))
   return core.setFailed(`${core.getInput('type')} error`)
 }
 
