@@ -10,6 +10,8 @@ async function main(): Promise<void> {
     path.join(process.cwd(), core.getInput('input')),
     path.join(process.cwd(), core.getInput('output'))
   )
+  core.info(`FILE ---> ${filepath}`)
+  core.info(`CWD ---> ${process.cwd()}`)
   if (filepath) {
     const pathname = filepath.replace(process.cwd(), '')
     console.log(`OUTPATH ----> ${pathname}`)
