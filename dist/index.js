@@ -101,7 +101,7 @@ function run(type, name, input, output) {
         task.pipe(stream);
         task.on('close', () => {
             core.info(`FILE ---> ${filepath}`);
-            res(`${name}.${type}`);
+            res(filepath);
         });
         task.on('error', () => {
             task.destroy();

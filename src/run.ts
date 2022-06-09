@@ -20,7 +20,7 @@ export default function run(
     task.pipe(stream)
     task.on('close', () => {
       core.info(`FILE ---> ${filepath}`)
-      res(`${name}.${type}`)
+      res(filepath)
     })
 
     task.on('error', () => {
