@@ -11,10 +11,10 @@ export default function run(
 ): Promise<string> {
   // 不存在创建文件夹
   if (!fs.existsSync(output)) {
-    fs.mkdirSync(output, { recursive: true })
+    fs.mkdirSync(output, {recursive: true})
   }
   return new Promise<string>(res => {
-    const task = archiver(type, { zlib: { level: 9 } })
+    const task = archiver(type, {zlib: {level: 9}})
     const filepath = path.join(output, `${name}.${type}`)
     const stream = fs.createWriteStream(filepath)
     task.pipe(stream)

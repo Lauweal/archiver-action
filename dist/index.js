@@ -44,6 +44,8 @@ const run_1 = __importDefault(__nccwpck_require__(7884));
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const filepath = yield (0, run_1.default)(core.getInput('type'), core.getInput('name'), path_1.default.join(process.cwd(), core.getInput('input')), path_1.default.join(process.cwd(), core.getInput('output')));
+        core.info(`FILE ---> ${filepath}`);
+        core.info(`CWD ---> ${process.cwd()}`);
         if (filepath) {
             const pathname = filepath.replace(process.cwd(), '');
             console.log(`OUTPATH ----> ${pathname}`);
@@ -62,30 +64,10 @@ main();
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__nccwpck_require__(2186));
 const archiver_1 = __importDefault(__nccwpck_require__(3084));
 const fs_1 = __importDefault(__nccwpck_require__(5747));
 const path_1 = __importDefault(__nccwpck_require__(5622));
@@ -100,7 +82,6 @@ function run(type, name, input, output) {
         const stream = fs_1.default.createWriteStream(filepath);
         task.pipe(stream);
         task.on('close', () => {
-            core.info(`FILE ---> ${filepath}`);
             res(filepath);
         });
         task.on('error', () => {
