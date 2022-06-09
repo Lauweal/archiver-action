@@ -10,9 +10,11 @@ async function main(): Promise<void> {
     path.join(process.cwd(), core.getInput('input')),
     path.join(process.cwd(), core.getInput('output'))
   )
-  console.log(`OUTPATH ----> ${filepath}`)
-  if (filepath)
-    return core.setOutput('path', path.join(core.getInput('output'), filepath))
+  if (filepath) {
+    const pathname = filepath.replace(process.cwd(), '')
+    console.log(`OUTPATH ----> ${pathname}`)
+    return core.setOutput('path', pathname)
+  }
   return core.setFailed(`${core.getInput('type')} error`)
 }
 

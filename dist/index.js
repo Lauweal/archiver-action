@@ -44,9 +44,11 @@ const run_1 = __importDefault(__nccwpck_require__(7884));
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const filepath = yield (0, run_1.default)(core.getInput('type'), core.getInput('name'), path_1.default.join(process.cwd(), core.getInput('input')), path_1.default.join(process.cwd(), core.getInput('output')));
-        console.log(`OUTPATH ----> ${filepath}`);
-        if (filepath)
-            return core.setOutput('path', path_1.default.join(core.getInput('output'), filepath));
+        if (filepath) {
+            const pathname = filepath.replace(process.cwd(), '');
+            console.log(`OUTPATH ----> ${pathname}`);
+            return core.setOutput('path', pathname);
+        }
         return core.setFailed(`${core.getInput('type')} error`);
     });
 }
